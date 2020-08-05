@@ -1,61 +1,59 @@
-
 const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Body = Matter.Body;
-var ground;
-var bin1, bin2, bin3;
-var ball;
+const Render = Matter.Render;
+var dustbinObj, paperObject,groundObject	
+var world;
 
 
-function preload()
-{
-	
-}
-
-function setup() 
-{
-	createCanvas(800, 700);
+function setup() {
+	createCanvas(1600, 700);
+	rectMode(CENTER);
 
 
 	engine = Engine.create();
 	world = engine.world;
+	dustbinObj=new dustbin(1200,650);
+	paperObject=new paper(200,450,40);
+	groundObject=new ground(width/2,670,width,20);
+	//Create a Ground
+	
 
-	groundSprite=createSprite(width/2, height-35, width,10);
-	groundSprite.shapeColor=color("yellow")
-	
-	
-	ball = new Paper(width/20, height-55);
-	
-	World.add(world,ball);
-
-	bin1 = new Bin(width/1.3, height-50, 200, 20);
-    bin2 = new Bin(height-170, width/1.36, 20, 100);
-	bin3 = new Bin(height-1, width/1.36, 20, 100);
+	var render = Render.create({
+	  element: document.body,
+	  engine: engine,
+	  options: {
+	    width: 1200,
+	    height: 700,
+	    wireframes: false
+	  }
+	});
 
 	Engine.run(engine);
+	//Render.run(render);
+  
 }
 
-function draw() 
-{
+
+function draw() {
   rectMode(CENTER);
   background(0);
-
+ 
+  dustbinObj.display();
+  paperObject.display();
+  groundObject.display();
+  
+ 
   
   
-  bin1.display();
-  bin2.display();
-  bin3.display();
-
-  ball.display();
-  
-  keyPressed();
-
-  drawSprites();
+ 
 }
 
 function keyPressed() {
-	if (keyCode === UP_ARROW) {
-		Matter.Body.applyForce(ball.body,ball.body.position,{x:85,y:-85});
-	 }
-   }
+  	if (keyCode === UP_ARROW) {
+
+    	Matter.Body.applyForce(paperObject.body,paperObject.body.position,{x:85,y:-85});
+    
+  	}
+}
